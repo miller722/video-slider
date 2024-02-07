@@ -78,6 +78,9 @@
         },
       ];
 
+      
+      var isAutoplayEnabled = false;
+
       vimeoVideos.forEach(function (video) {
         var player = new Vimeo.Player(video.id, {
           url: video.url,
@@ -103,12 +106,14 @@
         video.addEventListener("click", function () {
          
           var videoUrl = video.getAttribute("data-url");
-          console.log(video);
+          var id = video.getAttribute("id");
+          console.log(id);
 
-          openPopup(videoUrl);
+          openPopup(videoUrl, id);
         });
       });
-      function openPopup(videoUrl) {
+      function openPopup(videoUrl, id) {
+        isAutoplayEnabled = true;
         var modal = document.createElement("div");
         modal.classList.add("modal");
 
@@ -118,13 +123,16 @@
         var closeBtn = document.createElement("span");
         closeBtn.classList.add("close");
         closeBtn.innerHTML = "&times;";
-
-        var videoFrame = document.createElement("iframe");
-        videoFrame.setAttribute("src", videoUrl);
-        videoFrame.setAttribute("frameborder", "0");
-        videoFrame.setAttribute("allowfullscreen", "");
-        videoFrame.style.width = "500px";
-        videoFrame.style.height = "500px";
+        const videoFrame = document.createElement("div");
+         videoFrame.setAttribute("id", id+"-popup");
+       
+        // var videoFrame = document.createElement("iframe");
+        // videoFrame.setAttribute("src", videoUrl);
+        // videoFrame.setAttribute("autoplay", "true");
+        // videoFrame.setAttribute("frameborder", "0");
+        // videoFrame.setAttribute("allowfullscreen", "");
+        // videoFrame.style.width = "500px";
+        // videoFrame.style.height = "500px";
 
         modalContent.appendChild(closeBtn);
         modalContent.appendChild(videoFrame);
@@ -136,10 +144,23 @@
         });
 
         modal.style.display = "block";
+        
+        var player = new Vimeo.Player(id+"-popup", {
+          url: videoUrl,
+          width: 500,
+           autoplay : true,
+           background: true,
+        });
+
+        player.setVolume(0);
+
+        player.on("play", function () {
+          console.log("Played the video with ID: " + "popup");
+        });
       }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="/script.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>
 
