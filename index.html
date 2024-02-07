@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <title>Slider Test Task</title>
+  </head>
+  <body>
+    <h1>Video slider</h1>
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="video__wrapper" id="video1"></div>
+          <div class="video__wrapper" id="video2"></div>
+          <div class="video__wrapper" id="video3"></div>
+          <div class="video__wrapper" id="video4"></div>
+        </div>
+        <div class="swiper-slide">
+          <div class="video__wrapper" id="video5"></div>
+          <div class="video__wrapper" id="video6"></div>
+          <div class="video__wrapper" id="video7"></div>
+          <div class="video__wrapper" id="video8"></div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script>
+      var vimeoVideos = [
+        {
+          id: "video1",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+        {
+          id: "video2",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+        {
+          id: "video3",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+        {
+          id: "video4",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+        {
+          id: "video5",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+        {
+          id: "video6",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+        {
+          id: "video7",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+        {
+          id: "video8",
+          url: "https://player.vimeo.com/video/824804225",
+          width: 240,
+        },
+      ];
+
+      vimeoVideos.forEach(function (video) {
+        var player = new Vimeo.Player(video.id, {
+          url: video.url,
+          width: video.width,
+        });
+
+        player.setVolume(0);
+
+        player.on("play", function () {
+          console.log("Played the video with ID: " + video.id);
+        });
+      });
+
+      var modalVideos = document.querySelectorAll(".swiper-slide div");
+
+      modalVideos.forEach(function (videoDiv, index) {
+        var videoData = vimeoVideos[index];
+        videoDiv.setAttribute("data-url", videoData.url);
+      });
+
+      var vimeoItem = document.getElementsByTagName("iframe");
+      modalVideos.forEach(function (video) {
+        video.addEventListener("click", function () {
+         
+          var videoUrl = video.getAttribute("data-url");
+          console.log(video);
+
+          openPopup(videoUrl);
+        });
+      });
+      function openPopup(videoUrl) {
+        var modal = document.createElement("div");
+        modal.classList.add("modal");
+
+        var modalContent = document.createElement("div");
+        modalContent.classList.add("modal-content");
+
+        var closeBtn = document.createElement("span");
+        closeBtn.classList.add("close");
+        closeBtn.innerHTML = "&times;";
+
+        var videoFrame = document.createElement("iframe");
+        videoFrame.setAttribute("src", videoUrl);
+        videoFrame.setAttribute("frameborder", "0");
+        videoFrame.setAttribute("allowfullscreen", "");
+        videoFrame.style.width = "500px";
+        videoFrame.style.height = "500px";
+
+        modalContent.appendChild(closeBtn);
+        modalContent.appendChild(videoFrame);
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+
+        closeBtn.addEventListener("click", function () {
+          modal.style.display = "none";
+        });
+
+        modal.style.display = "block";
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/script.js"></script>
+  </body>
+</html>
+
+<!-- 879f51471f6830a9f2d41fb5bdcb1112 -->
+<!-- https://player.vimeo.com/video/824804225 -->
